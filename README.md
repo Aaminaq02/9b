@@ -1,32 +1,27 @@
-import numpy as np
-import skfuzzy as fuzz
-from skfuzzy import control as ctrl
-
-quality = ctrl.Antecedent(np.arange(0, 11, 1), 'quality')
-service = ctrl.Antecedent(np.arange(0, 11, 1), 'service')
-tip = ctrl.Consequent(np.arange(0, 26, 1), 'tip')
-
-quality.automf(3)
-service.automf(3)
-
-print("Name : Kimberly Moniz")
-print("Roll No : 21")
-tip['low'] = fuzz.trimf(tip.universe, [0, 0, 13])
-tip['medium'] = fuzz.trimf(tip.universe, [0, 13, 25])
-tip['high'] = fuzz.trimf(tip.universe, [13, 25, 25])
-quality['average'].view()
-service.view()
-tip.view()
-rule1 = ctrl.Rule(quality['poor'] | service['poor'], tip['low'])
-rule2 = ctrl.Rule(service['average'], tip['medium'])
-rule3 = ctrl.Rule(service['good'] | quality['good'], tip['high'])
-rule1.view()
-tipping_ctrl = ctrl.ControlSystem([rule1, rule2, rule3])
-tipping = ctrl.ControlSystemSimulation(tipping_ctrl)
-tipping.input['quality'] = 6.5
-tipping.input['service'] = 9.8
-
-tipping.compute()
-print (tipping.output['tip'])
-tip.view(sim=tipping)
-
+> #Polynomial Regression
+> set.seed(16)
+Warning message:
+In set.seed(16) : '.Random.seed[1]' is not a valid integer, so ignored
+> x <- 0:50
+> y <- 2.3 - 15.1*x + 1.2*x^2 + rnorm(length(x), 20, 50)
+> plot(x, y)
+> fit <- lm(y ~ 1 + x + I(x^2))
+> points(x, predict(fit), type="l")
+> summary(fit)
+Call:
+53004190028 Aamina Qureshi
+35
+lm(formula = y ~ 1 + x + I(x^2))
+Residuals:
+ Min 1Q Median 3Q Max
+-92.173 -28.968 3.673 24.953 97.269
+Coefficients:
+ Estimate Std. Error t value Pr(>|t|)
+(Intercept) 33.84216 18.36178 1.843 0.0715 .
+x -15.28705 1.69836 -9.001 7.07e-12 ***
+I(x^2) 1.20126 0.03285 36.569 < 2e-16 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 45.44 on 48 degrees of freedom
+Multiple R-squared: 0.996, Adjusted R-squared: 0.9959
+F-statistic: 6034 on 2 and 48 DF, p-value: < 2.2e-16
